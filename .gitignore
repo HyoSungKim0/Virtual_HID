@@ -1,0 +1,7 @@
+.dart_tool/
+build/
+__pycache__/
+*.py[cod]
+python/.venv/
+docs/*
+.history/*

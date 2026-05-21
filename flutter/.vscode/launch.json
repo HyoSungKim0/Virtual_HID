@@ -1,0 +1,16 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "virtual_hid (FVM Android)",
+      "request": "launch",
+      "type": "dart",
+      "deviceId": "R3KL108FSNP"
+    },
+    {
+      "name": "virtual_hid (FVM)",
+      "request": "launch",
+      "type": "dart"
+    }
+  ]
+}

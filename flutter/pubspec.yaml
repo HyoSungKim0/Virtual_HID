@@ -1,0 +1,23 @@
+name: virtual_hid
+description: Virtual HID phone client for BLE mouse input latency validation.
+publish_to: "none"
+version: 0.1.0+1
+
+environment:
+  sdk: ">=3.4.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_blue_plus: ^1.32.0
+  permission_handler: ^11.3.1
+  shared_preferences: ^2.2.3
+  wakelock_plus: ^1.2.5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
