@@ -89,13 +89,13 @@ dart pub global activate fvm
 ### 1. 저장소 위치로 이동
 
 ```cmd
-cd C:\Users\gytjd\flutter\Virtual_HID
+cd C:\Users\{사용자}\flutter\Virtual_HID
 ```
 
 ### 2. Python 가상환경 준비
 
 ```cmd
-cd C:\Users\gytjd\flutter\Virtual_HID
+cd C:\Users\{사용자}\flutter\Virtual_HID
 python -m venv python\.venv
 python\.venv\Scripts\activate
 python -m pip install --upgrade pip
@@ -111,7 +111,7 @@ python -c "import bless; from pysetupdi import devices; print('python deps ok')"
 ### 3. Flutter 의존성 준비
 
 ```cmd
-cd C:\Users\gytjd\flutter\Virtual_HID\flutter
+cd C:\Users\{사용자}\flutter\Virtual_HID\flutter
 fvm install 3.44.0
 fvm use 3.44.0
 fvm flutter pub get
@@ -132,7 +132,7 @@ FVM이 PATH에 없다면:
 새 터미널에서:
 
 ```cmd
-cd C:\Users\gytjd\flutter\Virtual_HID\python
+cd C:\Users\{사용자}\flutter\Virtual_HID\python
 .venv\Scripts\activate
 python main.py
 ```
@@ -155,7 +155,7 @@ Ctrl+C
 다른 터미널에서:
 
 ```cmd
-cd C:\Users\gytjd\flutter\Virtual_HID\flutter
+cd C:\Users\{사용자}\flutter\Virtual_HID\flutter
 fvm flutter run
 ```
 
@@ -176,7 +176,7 @@ fvm flutter run
 Android debug APK:
 
 ```cmd
-cd C:\Users\gytjd\flutter\Virtual_HID\flutter
+cd C:\Users\{사용자}\flutter\Virtual_HID\flutter
 fvm flutter build apk --debug
 ```
 
@@ -258,7 +258,7 @@ start ms-settings:developers
 가상환경을 켠 뒤 requirements를 다시 설치합니다.
 
 ```cmd
-cd C:\Users\gytjd\flutter\Virtual_HID\python
+cd C:\Users\{사용자}\flutter\Virtual_HID\python
 .venv\Scripts\activate
 python -m pip install -r requirements.txt
 ```
@@ -291,14 +291,14 @@ Python 서버가 Ping echo를 못 보내는 상태입니다.
 Python 문법 확인:
 
 ```cmd
-cd C:\Users\gytjd\flutter\Virtual_HID
+cd C:\Users\{사용자}\flutter\Virtual_HID
 python\.venv\Scripts\python.exe -m compileall python\ble python\hid python\main.py
 ```
 
 Dart format/analyze:
 
 ```cmd
-cd C:\Users\gytjd\flutter\Virtual_HID\flutter
+cd C:\Users\{사용자}\flutter\Virtual_HID\flutter
 fvm dart format lib
 fvm dart analyze lib
 ```
@@ -308,7 +308,7 @@ fvm dart analyze lib
 ```powershell
 $env:APPDATA='C:\tmp\dart_appdata'
 $env:LOCALAPPDATA='C:\tmp\dart_localappdata'
-C:\Users\gytjd\fvm\versions\3.44.0\bin\cache\dart-sdk\bin\dart.exe analyze lib
+C:\Users\{사용자}\fvm\versions\3.44.0\bin\cache\dart-sdk\bin\dart.exe analyze lib
 ```
 
 ## 문서

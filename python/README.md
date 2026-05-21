@@ -49,7 +49,7 @@ python/
 프로젝트 루트에서 실행합니다.
 
 ```cmd
-cd C:\Users\gytjd\flutter\Virtual_HID
+cd C:\Users\{사용자}\flutter\Virtual_HID
 python -m venv python\.venv
 python\.venv\Scripts\activate
 python -m pip install --upgrade pip
@@ -59,7 +59,7 @@ python -m pip install -r python\requirements.txt
 이미 가상환경이 있다면:
 
 ```cmd
-cd C:\Users\gytjd\flutter\Virtual_HID\python
+cd C:\Users\{사용자}\flutter\Virtual_HID\python
 .venv\Scripts\activate
 python -m pip install -r requirements.txt
 ```
@@ -75,7 +75,7 @@ python -c "import bless; from pysetupdi import devices; import win32api; print('
 Flutter 앱보다 먼저 Python 서버를 실행합니다.
 
 ```cmd
-cd C:\Users\gytjd\flutter\Virtual_HID\python
+cd C:\Users\{사용자}\flutter\Virtual_HID\python
 .venv\Scripts\activate
 python main.py
 ```
@@ -159,7 +159,7 @@ python main.py
 가상환경이 켜진 상태에서 `requirements.txt`로 다시 설치합니다.
 
 ```cmd
-cd C:\Users\gytjd\flutter\Virtual_HID\python
+cd C:\Users\{사용자}\flutter\Virtual_HID\python
 .venv\Scripts\activate
 python -m pip install -r requirements.txt
 ```
@@ -206,14 +206,14 @@ Flutter 앱이 reset 패킷을 보낼 수 있고 Python 서버도 reset을 처�
 문법 확인:
 
 ```cmd
-cd C:\Users\gytjd\flutter\Virtual_HID
+cd C:\Users\{사용자}\flutter\Virtual_HID
 python\.venv\Scripts\python.exe -m compileall python\ble python\hid python\main.py
 ```
 
 의존성 목록 확인:
 
 ```cmd
-cd C:\Users\gytjd\flutter\Virtual_HID\python
+cd C:\Users\{사용자}\flutter\Virtual_HID\python
 .venv\Scripts\activate
 python -m pip list
 ```
