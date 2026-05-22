@@ -793,18 +793,14 @@ class _KeyboardKey extends StatelessWidget {
             border: Border.all(color: const Color(0xFFCCCCCC)),
           ),
           child: Center(
-            child: Text(
-              modifierMode == _ModifierMode.locked
-                  ? '${spec.label}  lock'
+            child: _KeyLabel(
+              label: modifierMode == _ModifierMode.locked
+                  ? '${spec.label} lock'
                   : spec.label,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: active && modifierMode == _ModifierMode.locked
-                    ? Colors.white
-                    : const Color(0xFF111111),
-                fontSize: spec.label.length > 5 ? 12 : 15,
-                fontWeight: FontWeight.w600,
-              ),
+              subLabel: spec.subLabel,
+              color: active && modifierMode == _ModifierMode.locked
+                  ? Colors.white
+                  : const Color(0xFF111111),
             ),
           ),
         ),
@@ -813,65 +809,154 @@ class _KeyboardKey extends StatelessWidget {
   }
 }
 
-class _KeySpec {
-  const _KeySpec(this.label, {this.hidUsage, this.modifierMask, this.flex = 1});
+class _KeyLabel extends StatelessWidget {
+  const _KeyLabel({
+    required this.label,
+    required this.subLabel,
+    required this.color,
+  });
 
   final String label;
+  final String? subLabel;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    final String? secondary = subLabel;
+    if (secondary == null) {
+      return Text(
+        label,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: color,
+          fontSize: label.length > 5 ? 12 : 15,
+          fontWeight: FontWeight.w600,
+        ),
+      );
+    }
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Text(
+          label,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: color,
+            fontSize: 14,
+            fontWeight: FontWeight.w700,
+            height: 1,
+          ),
+        ),
+        const SizedBox(height: 2),
+        Text(
+          secondary,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: color.withValues(alpha: 0.75),
+            fontSize: 13,
+            fontWeight: FontWeight.w600,
+            height: 1,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _KeySpec {
+  const _KeySpec(
+    this.label, {
+    this.subLabel,
+    this.hidUsage,
+    this.modifierMask,
+    this.flex = 1,
+  });
+
+  final String label;
+  final String? subLabel;
   final int? hidUsage;
   final int? modifierMask;
   final int flex;
 }
 
 List<List<_KeySpec>> _keyboardRows(bool shifted) {
-  String label(String normal, String shiftedLabel) =>
-      shifted ? shiftedLabel : normal;
+  _KeySpec letterKey(String english, String korean, String shiftedKorean) {
+    return _KeySpec(
+      shifted ? english : english.toLowerCase(),
+      subLabel: shifted ? shiftedKorean : korean,
+      hidUsage: 0x04 + 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.indexOf(english),
+    );
+  }
+
+  _KeySpec symbolKey(String normal, String shiftedLabel, int hidUsage) {
+    return _KeySpec(normal, subLabel: shiftedLabel, hidUsage: hidUsage);
+  }
+
   return <List<_KeySpec>>[
     <_KeySpec>[
-      for (int i = 0; i < 12; i++) _KeySpec('F${i + 1}', hidUsage: 0x3A + i),
       const _KeySpec('Esc', hidUsage: 0x29),
+      for (int i = 0; i < 12; i++) _KeySpec('F${i + 1}', hidUsage: 0x3A + i),
     ],
     <_KeySpec>[
-      _KeySpec(label('`', '~'), hidUsage: 0x35),
-      _KeySpec(label('1', '!'), hidUsage: 0x1E),
-      _KeySpec(label('2', '@'), hidUsage: 0x1F),
-      _KeySpec(label('3', '#'), hidUsage: 0x20),
-      _KeySpec(label('4', r'$'), hidUsage: 0x21),
-      _KeySpec(label('5', '%'), hidUsage: 0x22),
-      _KeySpec(label('6', '^'), hidUsage: 0x23),
-      _KeySpec(label('7', '&'), hidUsage: 0x24),
-      _KeySpec(label('8', '*'), hidUsage: 0x25),
-      _KeySpec(label('9', '('), hidUsage: 0x26),
-      _KeySpec(label('0', ')'), hidUsage: 0x27),
-      _KeySpec(label('-', '_'), hidUsage: 0x2D),
-      _KeySpec(label('=', '+'), hidUsage: 0x2E),
+      symbolKey('`', '~', 0x35),
+      symbolKey('1', '!', 0x1E),
+      symbolKey('2', '@', 0x1F),
+      symbolKey('3', '#', 0x20),
+      symbolKey('4', r'$', 0x21),
+      symbolKey('5', '%', 0x22),
+      symbolKey('6', '^', 0x23),
+      symbolKey('7', '&', 0x24),
+      symbolKey('8', '*', 0x25),
+      symbolKey('9', '(', 0x26),
+      symbolKey('0', ')', 0x27),
+      symbolKey('-', '_', 0x2D),
+      symbolKey('=', '+', 0x2E),
       const _KeySpec('Backspace', hidUsage: 0x2A, flex: 2),
     ],
     <_KeySpec>[
       const _KeySpec('Tab', hidUsage: 0x2B, flex: 2),
-      for (final String c in 'QWERTYUIOP'.split(''))
-        _KeySpec(shifted ? c : c.toLowerCase(),
-            hidUsage: 0x04 + 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.indexOf(c)),
-      _KeySpec(label('[', '{'), hidUsage: 0x2F),
-      _KeySpec(label(']', '}'), hidUsage: 0x30),
-      _KeySpec(label(r'\', '|'), hidUsage: 0x31),
+      letterKey('Q', 'ㅂ', 'ㅃ'),
+      letterKey('W', 'ㅈ', 'ㅉ'),
+      letterKey('E', 'ㄷ', 'ㄸ'),
+      letterKey('R', 'ㄱ', 'ㄲ'),
+      letterKey('T', 'ㅅ', 'ㅆ'),
+      letterKey('Y', 'ㅛ', 'ㅛ'),
+      letterKey('U', 'ㅕ', 'ㅕ'),
+      letterKey('I', 'ㅑ', 'ㅑ'),
+      letterKey('O', 'ㅐ', 'ㅒ'),
+      letterKey('P', 'ㅔ', 'ㅖ'),
+      symbolKey('[', '{', 0x2F),
+      symbolKey(']', '}', 0x30),
+      symbolKey(r'\', '|', 0x31),
     ],
     <_KeySpec>[
       const _KeySpec('Caps', hidUsage: 0x39, flex: 2),
-      for (final String c in 'ASDFGHJKL'.split(''))
-        _KeySpec(shifted ? c : c.toLowerCase(),
-            hidUsage: 0x04 + 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.indexOf(c)),
-      _KeySpec(label(';', ':'), hidUsage: 0x33),
-      _KeySpec(label("'", '"'), hidUsage: 0x34),
+      letterKey('A', 'ㅁ', 'ㅁ'),
+      letterKey('S', 'ㄴ', 'ㄴ'),
+      letterKey('D', 'ㅇ', 'ㅇ'),
+      letterKey('F', 'ㄹ', 'ㄹ'),
+      letterKey('G', 'ㅎ', 'ㅎ'),
+      letterKey('H', 'ㅗ', 'ㅗ'),
+      letterKey('J', 'ㅓ', 'ㅓ'),
+      letterKey('K', 'ㅏ', 'ㅏ'),
+      letterKey('L', 'ㅣ', 'ㅣ'),
+      symbolKey(';', ':', 0x33),
+      symbolKey("'", '"', 0x34),
       const _KeySpec('Enter', hidUsage: 0x28, flex: 2),
     ],
     <_KeySpec>[
       const _KeySpec('Shift', modifierMask: 0x02, flex: 2),
-      for (final String c in 'ZXCVBNM'.split(''))
-        _KeySpec(shifted ? c : c.toLowerCase(),
-            hidUsage: 0x04 + 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.indexOf(c)),
-      _KeySpec(label(',', '<'), hidUsage: 0x36),
-      _KeySpec(label('.', '>'), hidUsage: 0x37),
-      _KeySpec(label('/', '?'), hidUsage: 0x38),
+      letterKey('Z', 'ㅋ', 'ㅋ'),
+      letterKey('X', 'ㅌ', 'ㅌ'),
+      letterKey('C', 'ㅊ', 'ㅊ'),
+      letterKey('V', 'ㅍ', 'ㅍ'),
+      letterKey('B', 'ㅠ', 'ㅠ'),
+      letterKey('N', 'ㅜ', 'ㅜ'),
+      letterKey('M', 'ㅡ', 'ㅡ'),
+      symbolKey(',', '<', 0x36),
+      symbolKey('.', '>', 0x37),
+      symbolKey('/', '?', 0x38),
       const _KeySpec('Shift', modifierMask: 0x20, flex: 2),
     ],
     <_KeySpec>[
